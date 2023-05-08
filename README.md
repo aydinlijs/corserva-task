@@ -1,5 +1,7 @@
 # Corserva Test Task developed by Bahruz Aydinli
 
+## Visit [corserva-task.web.app/](here) to view the app without the need for local setup.
+
 ## Available Scripts
 
 ### `yarn start`
