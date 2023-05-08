@@ -1,5 +1,6 @@
 import { Divider, Typography } from '@mui/material'
 import { deliveryOptions, paymentOptions } from '../Shared'
+import { FormFooter } from '../FormFooter/FormFooter'
 
 const formatAddress = (
   lines: string[],
@@ -13,8 +14,8 @@ const formatAddress = (
   )
 }
 
-export const DetailsReview = (props: any[]) => {
-  const { 0: personal, 1: delivery, 2: payment } = props
+export const DetailsReview = (props: any) => {
+  const { 0: personal, 1: delivery, 2: payment, onGoBack, amount } = props
 
   const deliveryType = deliveryOptions.find(
     (option) => option.value === delivery.deliveryOption
@@ -26,7 +27,7 @@ export const DetailsReview = (props: any[]) => {
   return (
     <div className="payment-details-review">
       <div className="card">
-        <Typography variant="h5">Personal details</Typography>
+        <Typography variant="h5">Order details</Typography>
         <table>
           <tbody>
             <tr>
@@ -73,18 +74,26 @@ export const DetailsReview = (props: any[]) => {
               </td>
               <td>{paymentType?.label}</td>
             </tr>
-            <tr>
-              <td>
-                <b>Card number:</b>
-              </td>
-              <td>
-                {payment.paymentDetails?.cardNumber} (exp on:{' '}
-                {payment.paymentDetails?.expirationDate})
-              </td>
-            </tr>
+            {paymentType?.value === 'credit-card' && (
+              <tr>
+                <td>
+                  <b>Card number:</b>
+                </td>
+                <td>
+                  {payment.paymentDetails?.cardNumber} (exp on:{' '}
+                  {payment.paymentDetails?.expirationDate})
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
+      <FormFooter
+        label="Place order"
+        onGoBack={onGoBack}
+        amount={amount}
+        disableContinue={false}
+      />
     </div>
   )
 }

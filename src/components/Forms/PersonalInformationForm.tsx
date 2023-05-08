@@ -1,7 +1,8 @@
-import { Button, Divider, FormControl, Grid, Typography } from '@mui/material'
+import { FormControl, Grid, Typography } from '@mui/material'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { UIInput } from '../UIInput/UIInput'
+import { FormFooter } from './FormFooter/FormFooter'
 
 const SignupSchema = yup.object().shape({
   name: yup
@@ -100,31 +101,15 @@ export const PersonalInformationForm = ({
               </FormControl>
             </Grid>
           </Grid>
-          <Divider sx={{ marginBlock: '20px' }} />
-          <Grid
-            display="flex"
-            justifyContent="flex-end"
-            sx={{ marginBlock: '20px' }}
-          >
-            <Typography variant="body1">
-              Total amount is: <b>{amount}$</b>
-            </Typography>
-          </Grid>
-          <Grid display="flex" justifyContent="flex-end" marginTop="20px">
-            <Button
-              size="large"
-              type="submit"
-              variant="contained"
-              disabled={
-                isSubmitting ||
-                Boolean(
-                  Object.keys(errors).length || !Object.keys(touched).length
-                )
-              }
-            >
-              Save and continue
-            </Button>
-          </Grid>
+          <FormFooter
+            amount={amount}
+            disableContinue={
+              isSubmitting ||
+              Boolean(
+                Object.keys(errors).length || !Object.keys(touched).length
+              )
+            }
+          />
         </form>
       )}
     </Formik>

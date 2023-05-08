@@ -1,22 +1,21 @@
 import {
-  Button,
   Checkbox,
   Divider,
   FormControl,
   FormControlLabel,
-  Grid,
   Typography,
   checkboxClasses,
   styled,
 } from '@mui/material'
 import { Formik } from 'formik'
+import { useState } from 'react'
 import * as yup from 'yup'
 import { UIRadioGroup } from '../../UIRadioGroup/UIRadioGroup'
 import { VisibilityWrapper } from '../../VisibilityWrapper'
+import { FormFooter } from '../FormFooter/FormFooter'
+import { paymentOptions } from '../Shared'
 import { PaymentForm } from './CardDetails'
 import { GiftCard } from './GiftCard'
-import { useState } from 'react'
-import { paymentOptions } from '../Shared'
 
 const DeliverySchema = yup.object().shape({
   paymentOption: yup.string(),
@@ -93,7 +92,7 @@ export const PaymentOptionsForm = ({
             />
           </FormControl>
           <Divider sx={{ marginBlock: '20px' }} />
-          <VisibilityWrapper visible={values.paymentOption === 'personal-card'}>
+          <VisibilityWrapper visible={values.paymentOption === 'credit-card'}>
             <PaymentForm
               cardInfo={cardInfo}
               onValueChange={setCardInfo}
@@ -134,40 +133,16 @@ export const PaymentOptionsForm = ({
           </VisibilityWrapper>
           <Divider sx={{ marginBlock: '20px' }} />
           <GiftCard onApply={onGiftCardApply} />
-          <Divider sx={{ marginBlock: '20px' }} />
-          <Grid
-            display="flex"
-            justifyContent="flex-end"
-            sx={{ marginBlock: '20px' }}
-          >
-            <Typography variant="body1">
-              Total amount is: <b>{amount}$</b>
-            </Typography>
-          </Grid>
-          <Grid display="flex" justifyContent="flex-end" gap="10px">
-            <Button
-              onClick={onGoBack}
-              size="large"
-              type="button"
-              variant="outlined"
-            >
-              Go back
-            </Button>
-            <Button
-              size="large"
-              type="submit"
-              variant="contained"
-              disabled={
-                isSubmitting ||
-                (values.paymentOption === 'paypal' && !paypalCheckbox) ||
-                (values.paymentOption === 'venmo' && !venmoCheckbox) ||
-                (values.paymentOption === 'personal-card' &&
-                  !isPaymentOptionsValid)
-              }
-            >
-              Confirm and continue
-            </Button>
-          </Grid>
+          <FormFooter
+            onGoBack={onGoBack}
+            amount={amount}
+            disableContinue={
+              isSubmitting ||
+              (values.paymentOption === 'paypal' && !paypalCheckbox) ||
+              (values.paymentOption === 'venmo' && !venmoCheckbox) ||
+              (values.paymentOption === 'credit-card' && !isPaymentOptionsValid)
+            }
+          />
         </form>
       )}
     </Formik>

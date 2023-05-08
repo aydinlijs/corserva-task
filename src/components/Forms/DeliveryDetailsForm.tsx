@@ -1,4 +1,4 @@
-import { Button, Divider, FormControl, Grid, Typography } from '@mui/material'
+import { Divider, FormControl, Grid, Typography } from '@mui/material'
 import { Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
@@ -6,6 +6,7 @@ import { UIInput } from '../UIInput/UIInput'
 import { UIRadioGroup } from '../UIRadioGroup/UIRadioGroup'
 import { UISelect } from '../UISelect/UISelect'
 import { VisibilityWrapper } from '../VisibilityWrapper'
+import { FormFooter } from './FormFooter/FormFooter'
 import { deliveryOptions } from './Shared'
 
 const PickupSchema = yup.object().shape({
@@ -206,40 +207,17 @@ export const DeliveryDetailsForm = ({
             </Grid>
           </VisibilityWrapper>
 
-          <Divider sx={{ marginBlock: '20px' }} />
-          <Grid
-            display="flex"
-            justifyContent="flex-end"
-            sx={{ marginBlock: '20px' }}
-          >
-            <Typography variant="body1">
-              Total amount is: <b>{amount}$</b>
-            </Typography>
-          </Grid>
-          <Grid display="flex" justifyContent="flex-end" gap="10px">
-            <Button
-              onClick={onGoBack}
-              size="large"
-              type="button"
-              variant="outlined"
-            >
-              Go back
-            </Button>
-            <Button
-              size="large"
-              type="submit"
-              variant="contained"
-              disabled={
-                isSubmitting ||
-                (!isPickUp &&
-                  Boolean(
-                    Object.keys(errors).length || !Object.keys(touched).length
-                  ))
-              }
-            >
-              Save and continue
-            </Button>
-          </Grid>
+          <FormFooter
+            onGoBack={onGoBack}
+            amount={amount}
+            disableContinue={
+              isSubmitting ||
+              (!isPickUp &&
+                Boolean(
+                  Object.keys(errors).length || !Object.keys(touched).length
+                ))
+            }
+          />
         </form>
       )}
     </Formik>

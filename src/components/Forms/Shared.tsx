@@ -22,7 +22,7 @@ export const deliveryOptions = [
 
 export const paymentOptions = [
   {
-    value: 'personal-card',
+    value: 'credit-card',
     icon: <CreditCardOutlined />,
     label: 'Credit card',
   },

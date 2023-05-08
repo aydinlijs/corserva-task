@@ -24,7 +24,7 @@ export default function HorizontalNonLinearStepper() {
       country: '',
     },
     {
-      paymentOption: 'personal-card',
+      paymentOption: 'credit-card',
       cardNumber: '',
       securityCode: '',
       expirationDate: '',
@@ -42,6 +42,10 @@ export default function HorizontalNonLinearStepper() {
   const onGiftCardApply = (value: string) => {
     const discountPercentage = value.length > 10 ? 100 : value.length * 10
     setAmount((prev) => (prev * discountPercentage) / 100)
+  }
+
+  const onGoBack = () => {
+    setActiveStep((step) => --step)
   }
 
   const steps = React.useMemo(
@@ -63,9 +67,7 @@ export default function HorizontalNonLinearStepper() {
         label: 'Delivery details',
         content: (
           <DeliveryDetailsForm
-            onGoBack={() => {
-              setActiveStep((step) => --step)
-            }}
+            onGoBack={onGoBack}
             amount={amount}
             initialValues={initialData[1]}
             onSubmit={(values: any) => {
@@ -82,9 +84,7 @@ export default function HorizontalNonLinearStepper() {
             onGiftCardApply={onGiftCardApply}
             initialValues={initialData[2]}
             amount={amount}
-            onGoBack={() => {
-              setActiveStep((step) => --step)
-            }}
+            onGoBack={onGoBack}
             onSubmit={(values: any) => {
               handleDataUpdate(values, 2)
               setActiveStep((step) => ++step)
@@ -94,15 +94,13 @@ export default function HorizontalNonLinearStepper() {
       },
       {
         label: 'Review',
-        content: <DetailsReview {...initialData} />,
+        content: (
+          <DetailsReview amount={amount} onGoBack={onGoBack} {...initialData} />
+        ),
       },
     ],
     [amount, initialData]
   )
-
-  const handleStep = (step: number) => () => {
-    setActiveStep(step)
-  }
 
   return (
     <Box>
@@ -113,7 +111,7 @@ export default function HorizontalNonLinearStepper() {
               color="inherit"
               onClick={() => {
                 if (activeStep > index) {
-                  handleStep(index)
+                  setActiveStep(index)
                 }
               }}
             >
