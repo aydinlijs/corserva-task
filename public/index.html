@@ -15,6 +15,13 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -40,4 +47,23 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  <script>
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from 'firebase/app'
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: 'AIzaSyD6laezfFmkU2EZdfYBkAM3dyQhqskR6_Q',
+      authDomain: 'corserva-task.firebaseapp.com',
+      projectId: 'corserva-task',
+      storageBucket: 'corserva-task.appspot.com',
+      messagingSenderId: '783190564578',
+      appId: '1:783190564578:web:f2aba02a54690a1c7a88bb',
+    }
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig)
+  </script>
 </html>
