@@ -16,17 +16,23 @@ import { ReactComponent as CardFrontIcon } from './svgs/cardFront.svg'
 import { ReactComponent as CardTypeIcon } from './svgs/cardType.svg'
 
 import './CardDetails.scss'
+import { CardDetails } from '../../OrderStepper/OrderStepper.interface'
 
 type fields = 'securityCode' | 'expirationDate' | 'cardNumber'
+
+interface IconDetails {
+  name: string
+  color: string
+}
 
 export const PaymentForm = ({
   onValidationChange,
   onValueChange,
   cardInfo,
 }: {
-  cardInfo: any
+  cardInfo: CardDetails
   onValidationChange: (value: boolean) => void
-  onValueChange: any
+  onValueChange: (callback: (values: CardDetails) => CardDetails) => void
 }) => {
   const [flipped, setFlipped] = useState(false)
   const cardNumberRef = useRef(null)
@@ -57,23 +63,23 @@ export const PaymentForm = ({
     cardNumberMask.on('accept', function () {
       const ccIcon = document.getElementById('ccicon')
       const ccSingle = document.getElementById('ccsingle')
-      const iconMap: { [key: string]: any } = {
-        'american express': { name: 'amex', c: 'green' },
-        visa: { name: 'visa', c: 'lime' },
-        diners: { name: 'diners', c: 'orange' },
-        discover: { name: 'discover', c: 'purple' },
-        jcb: { name: 'jcb', c: 'red' },
-        jcb15: { name: 'jcb', c: 'red' },
-        maestro: { name: 'maestro', c: 'yellow' },
-        mastercard: { name: 'mastercard', c: 'lighblue' },
-        unionpay: { name: 'unionpay', c: 'cyan' },
+      const iconMap: { [key: string]: IconDetails } = {
+        'american express': { name: 'amex', color: 'green' },
+        visa: { name: 'visa', color: 'lime' },
+        diners: { name: 'diners', color: 'orange' },
+        discover: { name: 'discover', color: 'purple' },
+        jcb: { name: 'jcb', color: 'red' },
+        jcb15: { name: 'jcb', color: 'red' },
+        maestro: { name: 'maestro', color: 'yellow' },
+        mastercard: { name: 'mastercard', color: 'lighblue' },
+        unionpay: { name: 'unionpay', color: 'cyan' },
       }
       const type: string = cardNumberMask.masked.currentMask.cardtype
       if (iconMap[type]) {
         if (ccIcon) ccIcon.innerHTML = (icons as any)[iconMap[type]['name']]
         if (ccSingle)
           ccSingle.innerHTML = (icons as any)[iconMap[type]['name'] + '_single']
-        swapColor(iconMap[type].c)
+        swapColor(iconMap[type].color)
       } else {
         if (ccIcon) ccIcon.innerHTML = ''
         if (ccSingle) ccSingle.innerHTML = ''
@@ -88,7 +94,7 @@ export const PaymentForm = ({
       }
     })
     cardNumberMask.on('complete', function () {
-      onValueChange((prev: any) => ({
+      onValueChange((prev: CardDetails) => ({
         ...prev,
         cardNumber: cardNumberMask.value,
       }))
@@ -105,7 +111,7 @@ export const PaymentForm = ({
       }
     })
     expirationDateMask.on('complete', function () {
-      onValueChange((prev: any) => ({
+      onValueChange((prev: CardDetails) => ({
         ...prev,
         expirationDate: expirationDateMask.value,
       }))
@@ -121,14 +127,14 @@ export const PaymentForm = ({
       }
     })
     securityCodeMask.on('complete', function () {
-      onValueChange((prev: any) => ({
+      onValueChange((prev: CardDetails) => ({
         ...prev,
         securityCode: securityCodeMask.value,
       }))
     })
   }, [onValueChange])
 
-  const handleNameChange = (event: any) => {
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const svgName = document.getElementById('svgname')
     const svgNameBack = document.getElementById('svgnameback')
     const isBlank = event.target.value.length === 0

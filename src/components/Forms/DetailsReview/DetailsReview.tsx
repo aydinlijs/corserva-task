@@ -1,6 +1,7 @@
 import { Divider, Typography } from '@mui/material'
 import { deliveryOptions, paymentOptions } from '../Shared'
 import { FormFooter } from '../FormFooter/FormFooter'
+import { OrderStepperForms } from '../../OrderStepper/OrderStepper.interface'
 
 const formatAddress = (
   lines: string[],
@@ -14,8 +15,16 @@ const formatAddress = (
   )
 }
 
-export const DetailsReview = (props: any) => {
-  const { 0: personal, 1: delivery, 2: payment, onGoBack, amount } = props
+export const DetailsReview = ({
+  amount,
+  data,
+  onGoBack,
+}: {
+  amount: number
+  data: OrderStepperForms
+  onGoBack: () => void
+}) => {
+  const { personal, delivery, payment } = data
 
   const deliveryType = deliveryOptions.find(
     (option) => option.value === delivery.deliveryOption
@@ -50,7 +59,9 @@ export const DetailsReview = (props: any) => {
             </tr>
             {delivery.deliveryOption !== 'pick-up' && (
               <tr>
-                <td>Address:</td>
+                <td>
+                  <b>Address:</b>
+                </td>
                 <td>
                   {formatAddress(
                     [delivery.lineOne, delivery.lineTwo, delivery.lineThree],
@@ -92,6 +103,9 @@ export const DetailsReview = (props: any) => {
         label="Place order"
         onGoBack={onGoBack}
         amount={amount}
+        onSubmit={() => {
+          alert('Congratulations!')
+        }}
         disableContinue={false}
       />
     </div>

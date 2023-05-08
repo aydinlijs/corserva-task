@@ -8,6 +8,7 @@ import { UISelect } from '../UISelect/UISelect'
 import { VisibilityWrapper } from '../VisibilityWrapper'
 import { FormFooter } from './FormFooter/FormFooter'
 import { deliveryOptions } from './Shared'
+import { DeliveryInformation } from '../OrderStepper/OrderStepper.interface'
 
 const PickupSchema = yup.object().shape({
   deliveryOption: yup.string(),
@@ -29,10 +30,10 @@ export const DeliveryDetailsForm = ({
   amount,
   initialValues,
 }: {
-  onSubmit: any
+  onSubmit: (values: DeliveryInformation) => void
   onGoBack: () => void
   amount: number
-  initialValues: any
+  initialValues: DeliveryInformation
 }) => {
   const [isPickUp, setIsPickUp] = useState(true)
   const [listOfCountries, setListOfCountries] = useState([])

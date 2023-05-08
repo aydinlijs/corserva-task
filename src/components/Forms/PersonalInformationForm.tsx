@@ -3,6 +3,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import { UIInput } from '../UIInput/UIInput'
 import { FormFooter } from './FormFooter/FormFooter'
+import { PersonalInformation } from '../OrderStepper/OrderStepper.interface'
 
 const SignupSchema = yup.object().shape({
   name: yup
@@ -23,9 +24,9 @@ export const PersonalInformationForm = ({
   amount,
   initialValues,
 }: {
-  onSubmit: any
+  onSubmit: (values: PersonalInformation) => void
   amount: number
-  initialValues: any
+  initialValues: PersonalInformation
 }) => {
   return (
     <Formik

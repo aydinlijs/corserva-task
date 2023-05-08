@@ -16,6 +16,10 @@ import { FormFooter } from '../FormFooter/FormFooter'
 import { paymentOptions } from '../Shared'
 import { PaymentForm } from './CardDetails'
 import { GiftCard } from './GiftCard'
+import {
+  CardDetails,
+  PaymentInformation,
+} from '../../OrderStepper/OrderStepper.interface'
 
 const DeliverySchema = yup.object().shape({
   paymentOption: yup.string(),
@@ -29,16 +33,16 @@ export const PaymentOptionsForm = ({
   onGiftCardApply,
   initialValues,
 }: {
-  onSubmit: any
+  onSubmit: (values: PaymentInformation) => void
   amount: number
   onGoBack: () => void
   onGiftCardApply: (value: string) => void
-  initialValues: any
+  initialValues: PaymentInformation
 }) => {
   const [paypalCheckbox, setPaypalCheckbox] = useState(false)
   const [venmoCheckbox, setVenmoCheckbox] = useState(false)
   const [isPaymentOptionsValid, setIsPaymentOptionsValid] = useState(false)
-  const [cardInfo, setCardInfo] = useState({
+  const [cardInfo, setCardInfo] = useState<CardDetails>({
     cardNumber: '',
     expirationDate: '',
     securityCode: '',

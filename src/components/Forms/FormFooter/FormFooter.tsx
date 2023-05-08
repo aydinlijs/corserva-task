@@ -5,12 +5,14 @@ interface FormFooterProps {
   amount: number
   onGoBack?: () => void
   disableContinue: boolean
+  onSubmit?: () => void
 }
 
 export const FormFooter = ({
   label,
   amount,
   onGoBack,
+  onSubmit,
   disableContinue,
 }: FormFooterProps) => (
   <>
@@ -35,6 +37,7 @@ export const FormFooter = ({
         size="large"
         type="submit"
         variant="contained"
+        onClick={onSubmit}
         disabled={disableContinue}
       >
         {label || 'Save and continue'}
